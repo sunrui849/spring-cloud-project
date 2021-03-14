@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Aspect
 @Component
 @Slf4j
-@Order(2)
+@Order(3)
 public class ResponseAspect {
 
     @Pointcut("execution(public * com.sr.cloud..**.controller..*.*(..))")

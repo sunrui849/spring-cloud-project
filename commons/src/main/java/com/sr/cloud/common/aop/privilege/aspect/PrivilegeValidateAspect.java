@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Aspect
 @Component
 @Slf4j
-@Order(1)
+@Order(2)
 public class PrivilegeValidateAspect {
     private static final String FEIGN_KEY = "FEIGN";
     private static final String USER_KEY = "USER_ID";
