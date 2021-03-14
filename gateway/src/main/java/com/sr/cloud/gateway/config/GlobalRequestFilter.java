@@ -1,5 +1,8 @@
 package com.sr.cloud.gateway.config;
 
+import com.sr.cloud.base.dto.CommonResponse;
+import com.sr.cloud.base.dto.constant.Constants;
+import com.sr.cloud.base.dto.enu.StatusCodeEnum;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -21,8 +24,6 @@ import java.util.List;
 
 @Component
 public class GlobalRequestFilter implements GlobalFilter, Ordered {
-    private static final String TOKEN_KEY = "TOKEN";
-    private static final String USER_KEY = "USER_ID";
     private static final List<String> WHITE_LIST = Arrays.asList("/u/user/login", "***");
 
     @Override
@@ -35,11 +36,11 @@ public class GlobalRequestFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        List<String> tokenList = request.getHeaders().get(TOKEN_KEY);
+        List<String> tokenList = request.getHeaders().get(Constants.TOKEN_KEY);
         if (CollectionUtils.isEmpty(tokenList)) {
             ServerHttpResponse serverHttpResponse = exchange.getResponse();
             serverHttpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-            byte[] bytes = "{\"status\":\"-1\",\"msg\":\"No Auth\"}".getBytes(StandardCharsets.UTF_8);
+            byte[] bytes = CommonResponse.getInstance(StatusCodeEnum.TOKEN_EMPTY).toString().getBytes(StandardCharsets.UTF_8);
             DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
             return exchange.getResponse().writeWith(Flux.just(buffer));
         }
@@ -51,13 +52,13 @@ public class GlobalRequestFilter implements GlobalFilter, Ordered {
         if (StringUtils.isBlank(userId)) {
             ServerHttpResponse serverHttpResponse = exchange.getResponse();
             serverHttpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-            byte[] bytes = "{\"status\":\"-2\",\"msg\":\"token is error\"}".getBytes(StandardCharsets.UTF_8);
+            byte[] bytes = CommonResponse.getInstance(StatusCodeEnum.TOKEN_ERROR).toString().getBytes(StandardCharsets.UTF_8);
             DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
             return exchange.getResponse().writeWith(Flux.just(buffer));
         }
 
         // 透穿 token
-        request = request.mutate().header(USER_KEY, userId).build();
+        request = request.mutate().header(Constants.USER_KEY, userId).build();
         return chain.filter(exchange.mutate().request(request).build());
     }
 

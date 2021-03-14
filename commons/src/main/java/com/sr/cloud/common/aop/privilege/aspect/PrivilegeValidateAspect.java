@@ -3,6 +3,7 @@ package com.sr.cloud.common.aop.privilege.aspect;
 import com.sr.cloud.base.dto.CommonResponse;
 import com.sr.cloud.common.aop.privilege.PrivilegeUtil;
 import com.sr.cloud.common.aop.privilege.PrivilegeValidate;
+import com.sr.cloud.base.dto.constant.Constants;
 import com.sr.cloud.common.util.SpringContextHolder;
 import com.sr.cloud.user.api.UserServiceApi;
 import com.sr.cloud.user.dto.PrivilegeValidateDTO;
@@ -27,10 +28,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Aspect
 @Component
 @Slf4j
-@Order(2)
+@Order(3)
 public class PrivilegeValidateAspect {
-    private static final String FEIGN_KEY = "FEIGN";
-    private static final String USER_KEY = "USER_ID";
     /**
      * 权限检查实现类缓存
      */
@@ -62,14 +61,14 @@ public class PrivilegeValidateAspect {
 
             // feign之间调用不需要鉴权
             HttpServletRequest request = getRequest();
-            if ("CONTINUE".equals(request.getHeader(FEIGN_KEY))) {
+            if (Constants.FEIGN_CONTINUE.equals(request.getHeader(Constants.FEIGN_KEY))) {
                 return proceedingJoinPoint.proceed();
             }
 
-            String userId = request.getHeader(USER_KEY);
+            String userId = request.getHeader(Constants.USER_KEY);
 
             // 获取用户信息
-            PrivilegeValidateDTO privilegeValidateDTO = userServiceApi.queryPrivilegeById(Long.valueOf(userId));
+            PrivilegeValidateDTO privilegeValidateDTO = CommonResponse.parseResponse(userServiceApi.queryPrivilegeById(Long.valueOf(userId)));
             PrivilegeUtil.putPrivilege(privilegeValidateDTO);
             // todo 哪里需要增加到ThreadLocal中
             // 1. 获取用户数据信息

@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: user-service-provider
+  aop:
+    proxy-target-class: true
 eureka:
   client:
     service-url:
@@ -14,3 +16,10 @@ eureka:
     hostname: localhost
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: '%d{yyyy/MM/dd-HH:mm:ss} [%X{requestId}] [%thread] %-5level %logger- %msg%n'
+    file: '%d{yyyy/MM/dd-HH:mm} [%X{requestId}] [%thread] %-5level %logger- %msg%n'

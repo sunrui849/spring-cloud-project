@@ -1,12 +1,7 @@
 package com.sr.cloud.common.aop.response;
 
 import com.sr.cloud.base.dto.CommonResponse;
-import com.sr.cloud.common.aop.privilege.PrivilegeUtil;
-import com.sr.cloud.common.aop.privilege.PrivilegeValidate;
-import com.sr.cloud.common.aop.privilege.aspect.Privilege;
-import com.sr.cloud.common.util.SpringContextHolder;
-import com.sr.cloud.user.api.UserServiceApi;
-import com.sr.cloud.user.dto.PrivilegeValidateDTO;
+import com.sr.cloud.base.dto.constant.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -14,7 +9,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
@@ -22,13 +16,12 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
+@Deprecated
 @Aspect
-@Component
+//@Component
 @Slf4j
-@Order(3)
+@Order(2)
 public class ResponseAspect {
 
     @Pointcut("execution(public * com.sr.cloud..**.controller..*.*(..))")
@@ -44,6 +37,12 @@ public class ResponseAspect {
      */
     @Around(value = "responsePointcut()")
     public Object privilegeValidate(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        // feign之间调用不封装
+        HttpServletRequest request = getRequest();
+        if (Constants.FEIGN_CONTINUE.equals(request.getHeader(Constants.FEIGN_KEY))) {
+            return proceedingJoinPoint.proceed();
+        }
+
         try {
             // 这个方法才是目标对象上有注解的方法
             Signature signature = proceedingJoinPoint.getSignature();//方法签名
@@ -56,10 +55,23 @@ public class ResponseAspect {
                 return CommonResponse.getSuccessResult(proceedingJoinPoint.proceed());
             }
         } catch (Throwable throwable) {
-            log.error("执行失败", throwable);
-            return CommonResponse.getFailedResult();
-        } finally {
-            PrivilegeUtil.clear();
+            log.error("controller执行失败", throwable);
         }
+        return CommonResponse.getFailedResult();
+    }
+
+    /**
+     * 获取请求
+     *
+     * @return
+     */
+    private HttpServletRequest getRequest() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = null;
+        Object obj = requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
+        if (obj instanceof HttpServletRequest) {
+            request = (HttpServletRequest) obj;
+        }
+        return request;
     }
 }

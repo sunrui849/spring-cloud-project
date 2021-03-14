@@ -13,6 +13,10 @@ public enum StatusCodeEnum {
 
     EMPTY_DATA("4004", "响应数据为空"),
 
+    TOKEN_EMPTY("4005", "token不存在"),
+
+    TOKEN_ERROR("4005", "token错误或过期"),
+
     PARAM_ERROR("4000", "请求参数非法");
 
     /**

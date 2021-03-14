@@ -1,7 +1,7 @@
 package com.sr.cloud.common.aop.request;
 
 
-import com.sr.cloud.common.constant.Constants;
+import com.sr.cloud.base.dto.constant.Constants;
 import com.sr.cloud.common.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -11,8 +11,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.MDC;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Method;
 
 /**
  * @author: wufaping
@@ -36,10 +34,6 @@ public class RequestIdAOP {
         }
         MDC.clear();
         MDC.put(Constants.REQUEST_ID, UUIDUtil.generateUUID());
-
-        Object[] args = joinPoint.getArgs();
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
 
         Object result = null;
         try {

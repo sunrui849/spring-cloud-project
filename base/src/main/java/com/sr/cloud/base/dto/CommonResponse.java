@@ -53,6 +53,60 @@ public class CommonResponse<T> implements Serializable {
     }
 
     /**
+     * 解析response
+     *
+     * @param response
+     * @param <T>
+     * @return
+     */
+    public static <T> T parseResponse(CommonResponse response) {
+        return parseResponse(response, null, false);
+    }
+
+    /**
+     * 解析response
+     *
+     * @param response
+     * @param <T>
+     * @return
+     */
+    public static <T> T parseResponse(CommonResponse response, boolean throwException) {
+        return parseResponse(response, null, throwException);
+    }
+
+    /**
+     * 解析response
+     *
+     * @param response
+     * @param defaultValue
+     * @param <T>
+     * @return
+     */
+    public static <T> T parseResponse(CommonResponse response, T defaultValue) {
+        return parseResponse(response, defaultValue, false);
+    }
+
+    /**
+     * 解析response
+     *
+     * @param response
+     * @param defaultValue
+     * @param throwException
+     * @param <T>
+     * @return
+     */
+    public static <T> T parseResponse(CommonResponse response, T defaultValue, boolean throwException) {
+        if (response.isSuccess()) {
+            return (T) response.getData();
+        }
+
+        if (throwException) {
+            throw new RuntimeException(response.getMessage());
+        }
+        return defaultValue;
+    }
+
+    /**
      * 返回数据+返回码&描述信息
      *
      * @param data
@@ -192,7 +246,9 @@ public class CommonResponse<T> implements Serializable {
 
     @Override
     public String toString() {
-        return "ClientUnifiedResult [code=" + code + ", message=" + message + ", data=" + data + "]";
+        return "{\"code\":\"" + code + "\", " +
+                "\"message\":\"" + message + "\"," +
+                "\"data\":\"" + data + "\"}";
     }
 
 }
