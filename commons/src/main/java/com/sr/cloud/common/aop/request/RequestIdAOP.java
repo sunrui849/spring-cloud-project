@@ -27,8 +27,7 @@ public class RequestIdAOP {
 
     @Around("@annotation(org.springframework.web.bind.annotation.RequestMapping)" +
             "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
-            "|| @annotation(org.springframework.web.bind.annotation.GetMapping)" +
-            "|| @annotation(com.jd.yoda.fire.rta.common.annotation.MethodLog)"
+            "|| @annotation(org.springframework.web.bind.annotation.GetMapping)"
     )
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
         if (!(joinPoint.getSignature() instanceof MethodSignature)) {

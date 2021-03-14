@@ -39,7 +39,7 @@ public class PrivilegeValidateAspect {
     @Autowired
     private UserServiceApi userServiceApi;
 
-    @Pointcut("@annotation(com.sr.cloud.common.privilege.aspect.Privilege)")
+    @Pointcut("@annotation(com.sr.cloud.common.aop.privilege.aspect.Privilege)")
     private void privilegePointcut() {
     }
 
