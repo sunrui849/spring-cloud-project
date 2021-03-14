@@ -2,8 +2,6 @@
 server:
   port: 1201
 spring:
-  application:
-    name: business-service-provider
   aop:
     # cglib代理
     proxy-target-class: true
@@ -34,17 +32,6 @@ mybatis:
   configuration:
     use-generated-keys: true
     map-underscore-to-camel-case: true
-
-eureka:
-  client:
-    service-url:
-      #注册地址
-      defaultZone: http://user:password123@localhost:8761/eureka/,http://user:password123@localhost:8762/eureka/
-  #显示服务器IP加端口
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 
 logging:
   level:

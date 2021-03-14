@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: business-service-provider
+  cloud:
+    config:
+      profile: test   #对应spring.profiles.active
+      label: master   #分支名。当使用配置服务器是git时，默认是master
+      username: user  #配置服务器的用户名密码，此配置会覆盖uri中的配置
+      password: password123
+      discovery:
+        enabled: true  #默认false，设为true表示使用注册中心中的configserver配置，而不是自己配置configserver的uri
+        service-id: config-jdbc-server  #指定config server在服务发现中的serviceId，默认为：configserver
+eureka:
+  client:
+    service-url:
+      #注册地址
+      defaultZone: http://user:password123@localhost:8761/eureka/,http://user:password123@localhost:8762/eureka/
+  #显示服务器IP加端口
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
