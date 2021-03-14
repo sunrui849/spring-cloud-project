@@ -3,6 +3,7 @@ package com.sr.cloud.common.aop.privilege.aspect;
 
 import com.sr.cloud.common.aop.privilege.PrivilegeValidate;
 import com.sr.cloud.common.aop.privilege.enu.PrivilegeEnum;
+import com.sr.cloud.common.aop.privilege.impl.DefaultValidate;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

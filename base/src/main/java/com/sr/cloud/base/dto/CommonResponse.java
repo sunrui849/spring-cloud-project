@@ -1,5 +1,6 @@
 package com.sr.cloud.base.dto;
 
+import com.sr.cloud.base.dto.enu.StatusCodeEnum;
 import org.slf4j.MDC;
 
 import java.io.Serializable;
