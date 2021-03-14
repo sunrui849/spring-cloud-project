@@ -1,0 +1,18 @@
+# Tomcat
+server:
+  port: 1201
+spring:
+  application:
+    name: business-service-provider
+  aop:
+    proxy-target-class: true
+eureka:
+  client:
+    service-url:
+      #注册地址
+      defaultZone: http://user:password123@localhost:8761/eureka/,http://user:password123@localhost:8762/eureka/
+  #显示服务器IP加端口
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}

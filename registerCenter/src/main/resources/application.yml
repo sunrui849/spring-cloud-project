@@ -1,0 +1,19 @@
+#安全认证配置
+spring:
+  application: eureka
+  security:
+    basic:
+      enabled: true
+    user:
+      name: user
+      password: password123
+server:
+  port: 8761
+#eureka客户端连接配置
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      #注册中心地址
+      defaultZone: http://user:password123@localhost:8761/eureka/,http://user:password123@localhost:8762/eureka/
