@@ -57,7 +57,7 @@ public class GlobalRequestFilter implements GlobalFilter, Ordered {
             return exchange.getResponse().writeWith(Flux.just(buffer));
         }
 
-        // 透穿 token
+        // 透传 token
         request = request.mutate().header(Constants.USER_KEY, userId).build();
         return chain.filter(exchange.mutate().request(request).build());
     }

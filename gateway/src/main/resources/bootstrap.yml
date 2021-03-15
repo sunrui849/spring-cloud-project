@@ -1,6 +1,6 @@
 spring:
   application:
-    name: business-service-provider
+    name: api-gateway
   cloud:
     config:
       profile: prod   #对应spring.profiles.active
@@ -9,12 +9,12 @@ spring:
         enabled: true  #默认false，设为true表示使用注册中心中的configserver配置，而不是自己配置configserver的uri
         service-id: config-jdbc-server  #指定config server在服务发现中的serviceId，默认为：configserver
 
+
 eureka:
   client:
-    service-url:
-      #注册地址
+    serviceUrl:
+      #eureka注册中心地址
       defaultZone: http://user:password123@localhost:8761/eureka/,http://user:password123@localhost:8762/eureka/
-  #显示服务器IP加端口
   instance:
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}

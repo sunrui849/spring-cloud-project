@@ -1,3 +1,6 @@
+server:
+  port: 8761
+
 #安全认证配置
 spring:
   application: eureka
@@ -7,8 +10,7 @@ spring:
     user:
       name: user
       password: password123
-server:
-  port: 8761
+
 #eureka客户端连接配置
 eureka:
   instance:
