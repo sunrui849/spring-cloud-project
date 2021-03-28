@@ -2,7 +2,7 @@ package com.sr.cloud.business.controller;
 
 import com.sr.cloud.base.dto.CommonResponse;
 import com.sr.cloud.business.api.BusinessApi;
-import com.sr.cloud.business.domain.po.TeacherPO;
+import com.sr.cloud.business.entity.TeacherEntity;
 import com.sr.cloud.business.service.TeacherService;
 import com.sr.cloud.common.aop.privilege.aspect.Privilege;
 import com.sr.cloud.user.api.UserServiceApi;
@@ -31,7 +31,7 @@ public class BusinessController implements BusinessApi, Serializable {
     @RequestMapping("/doSomeThing")
     public CommonResponse<String> doSomeThing(Long userId) {
         User user = CommonResponse.parseResponse(userServiceApi.queryById(userId));
-        TeacherPO teacherPO = teacherService.queryById(3L);
+        TeacherEntity teacherPO = teacherService.queryById(3L);
         log.info("teacher : {}", teacherPO);
         return CommonResponse.getSuccessResult(UUID.randomUUID().toString()+user.getUserName());
     }
@@ -41,7 +41,7 @@ public class BusinessController implements BusinessApi, Serializable {
     @RequestMapping("/doSomeThing2")
     public CommonResponse<String> doSomeThing2(Long userId) {
         User user = CommonResponse.parseResponse(userServiceApi.queryById(userId));
-        TeacherPO teacherPO = teacherService.queryById2(3L);
+        TeacherEntity teacherPO = teacherService.queryById2(3L);
         log.info("teacher : {}", teacherPO);
         return CommonResponse.getSuccessResult(UUID.randomUUID().toString()+user.getUserName());
     }

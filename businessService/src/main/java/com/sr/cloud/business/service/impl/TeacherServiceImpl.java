@@ -1,7 +1,7 @@
 package com.sr.cloud.business.service.impl;
 
-import com.sr.cloud.business.dao.TeacherMapper;
-import com.sr.cloud.business.domain.po.TeacherPO;
+import com.sr.cloud.business.mapper.TeacherMapper;
+import com.sr.cloud.business.entity.TeacherEntity;
 import com.sr.cloud.business.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,12 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherMapper teacherMapper;
 
     @Override
-    public TeacherPO queryById(long l) {
+    public TeacherEntity queryById(long l) {
         return teacherMapper.queryById(l);
     }
 
     @Override
-    public TeacherPO queryById2(long l) {
+    public TeacherEntity queryById2(long l) {
         return teacherMapper.selectById(l);
     }
 }

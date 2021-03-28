@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * <p> </p>
  */
 @Configuration
-@MapperScan("com.sr.cloud.business.dao.*.mapper*")
 public class MybatisPlusConfig {
     @Bean
     public PaginationInterceptor paginationInterceptor() {

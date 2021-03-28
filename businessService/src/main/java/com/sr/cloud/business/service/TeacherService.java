@@ -1,9 +1,9 @@
 package com.sr.cloud.business.service;
 
-import com.sr.cloud.business.domain.po.TeacherPO;
+import com.sr.cloud.business.entity.TeacherEntity;
 
 public interface TeacherService {
-    TeacherPO queryById(long l);
+    TeacherEntity queryById(long l);
 
-    TeacherPO queryById2(long l);
+    TeacherEntity queryById2(long l);
 }

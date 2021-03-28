@@ -35,7 +35,7 @@ mybatis-plus:
 
 logging:
   level:
-    root: info
+    root: debug
   pattern:
     console: '%d{yyyy/MM/dd-HH:mm:ss} [%X{requestId}] [%thread] %-5level %logger- %msg%n'
     file: '%d{yyyy/MM/dd-HH:mm} [%X{requestId}] [%thread] %-5level %logger- %msg%n'

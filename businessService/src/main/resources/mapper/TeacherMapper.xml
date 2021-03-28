@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sr.cloud.business.dao.TeacherMapper">
-    <resultMap id="TeacherResultMap" type="com.sr.cloud.business.domain.po.TeacherPO">
+<mapper namespace="com.sr.cloud.business.mapper.TeacherMapper">
+    <resultMap id="TeacherResultMap" type="com.sr.cloud.business.entity.TeacherEntity">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
         <result column="age" property="age" jdbcType="INTEGER"/>

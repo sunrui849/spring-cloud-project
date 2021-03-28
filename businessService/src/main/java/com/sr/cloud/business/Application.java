@@ -14,7 +14,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableEurekaClient
 @EnableAspectJAutoProxy
 @ComponentScan("com.sr.cloud.*")
-@MapperScan("com.sr.cloud.business.dao")
+@MapperScan("com.sr.cloud.business.mapper")
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
