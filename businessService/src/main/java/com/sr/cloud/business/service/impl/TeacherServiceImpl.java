@@ -15,4 +15,9 @@ public class TeacherServiceImpl implements TeacherService {
     public TeacherPO queryById(long l) {
         return teacherMapper.queryById(l);
     }
+
+    @Override
+    public TeacherPO queryById2(long l) {
+        return teacherMapper.selectById(l);
+    }
 }

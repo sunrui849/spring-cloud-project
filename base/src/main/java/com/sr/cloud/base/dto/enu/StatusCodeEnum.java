@@ -9,13 +9,15 @@ public enum StatusCodeEnum {
 
     FAILED("5000", "未知错误"),
 
+    EMPTY_DATA("3004", "响应数据为空"),
+
     PRIVILEGE_ERROR("4001", "权限不足"),
 
-    EMPTY_DATA("4004", "响应数据为空"),
+    NOT_LOGIN("4003", "用户未登陆"),
 
     TOKEN_EMPTY("4005", "token不存在"),
 
-    TOKEN_ERROR("4005", "token错误或过期"),
+    TOKEN_ERROR("4006", "token错误或过期"),
 
     PARAM_ERROR("4000", "请求参数非法");
 

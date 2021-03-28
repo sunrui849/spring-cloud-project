@@ -27,8 +27,8 @@ spring:
       maxPoolPreparedStatementPerConnectionSize: 0
 
 #myBatis
-mybatis:
-  mapperLocations: classpath*:mapper/*Mapper.xml
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*Mapper.xml
   configuration:
     use-generated-keys: true
     map-underscore-to-camel-case: true

@@ -4,6 +4,8 @@ import com.sr.cloud.base.dto.CommonResponse;
 import com.sr.cloud.common.aop.privilege.PrivilegeUtil;
 import com.sr.cloud.common.aop.privilege.PrivilegeValidate;
 import com.sr.cloud.base.dto.constant.Constants;
+import com.sr.cloud.common.aop.privilege.enu.PrivilegeEnum;
+import com.sr.cloud.common.aop.privilege.enu.PrivilegeTypeEnum;
 import com.sr.cloud.common.util.SpringContextHolder;
 import com.sr.cloud.user.api.UserServiceApi;
 import com.sr.cloud.user.dto.PrivilegeValidateDTO;
@@ -67,14 +69,31 @@ public class PrivilegeValidateAspect {
 
             String userId = request.getHeader(Constants.USER_KEY);
 
-            // 获取用户信息
+            // 1.获取用户信息
             PrivilegeValidateDTO privilegeValidateDTO = CommonResponse.parseResponse(userServiceApi.queryPrivilegeById(Long.valueOf(userId)));
+            if (privilegeValidateDTO == null) {
+                // 用户未登陆
+                log.info("privilege check user not login.");
+                return CommonResponse.getNotLoginResult();
+            }
             PrivilegeUtil.putPrivilege(privilegeValidateDTO);
-            // todo 哪里需要增加到ThreadLocal中
-            // 1. 获取用户数据信息
 
-            // 2. 是否超级管理员
+            // 2.获取所有支持的权限
+            Set<PrivilegeEnum> privilegeEnumSet = PrivilegeUtil.getPrivilegeSet();
 
+            // 3. 是否超级管理员
+            if (privilegeEnumSet.contains(PrivilegeEnum.SUPPER_ADMINISTRATOR)) {
+                return proceedingJoinPoint.proceed();
+            }
+
+            // 4.检查类型（交集、并集）检查权限是否满足
+            boolean result = checkPrivilegeExist(annotation.privileges(), annotation.type(), privilegeEnumSet);
+            if (!result) {
+                if (log.isInfoEnabled()) {
+                    log.info("privilege check fail, privilege no match. userId:{}", privilegeValidateDTO.getUserId());
+                }
+                return CommonResponse.getPrivilegeErrorResult();
+            }
 
             // 5. 执行自定义处理类
             PrivilegeValidate privilegeValidate = getPrivilegeValidateImpl(annotation.customPrivilegeValidate());
@@ -82,7 +101,7 @@ public class PrivilegeValidateAspect {
                 return proceedingJoinPoint.proceed();
             }
             try {
-                boolean result = privilegeValidate.checkPrivilege();
+                result = privilegeValidate.checkPrivilege();
                 if (!result) {
                     return CommonResponse.getPrivilegeErrorResult();
                 }
@@ -98,6 +117,32 @@ public class PrivilegeValidateAspect {
         }
 
         return proceedingJoinPoint.proceed();
+    }
+
+    /**
+     * 检查权限是否存在
+     *
+     * @param privileges    需要权限
+     * @param type          权限类型
+     * @param privilegeList 具有的权限
+     * @return
+     */
+    private boolean checkPrivilegeExist(PrivilegeEnum[] privileges, PrivilegeTypeEnum type, Set<PrivilegeEnum> privilegeList) {
+        if (privileges == null || privileges.length <= 0) {
+            return true;
+        }
+
+        if (PrivilegeTypeEnum.ALL.equals(type)) {
+            return privilegeList.containsAll(Arrays.asList(privileges));
+        } else if (PrivilegeTypeEnum.ARBITRARILY.equals(type)) {
+            for (PrivilegeEnum pri : privileges) {
+                if (privilegeList.contains(pri)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

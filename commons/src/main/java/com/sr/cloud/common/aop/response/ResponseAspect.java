@@ -17,6 +17,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
+/**
+ * 代理不支持返回类型与原类型不同
+ */
 @Deprecated
 @Aspect
 //@Component

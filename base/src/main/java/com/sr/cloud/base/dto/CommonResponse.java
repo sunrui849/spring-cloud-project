@@ -173,6 +173,15 @@ public class CommonResponse<T> implements Serializable {
     }
 
     /**
+     * 未登陆
+     *
+     * @return
+     */
+    public static <T> CommonResponse<T> getNotLoginResult() {
+        return getInstance(StatusCodeEnum.NOT_LOGIN);
+    }
+
+    /**
      * 获取非法参数 结果
      *
      * @param <T>

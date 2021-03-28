@@ -2,6 +2,7 @@ package com.sr.cloud.user.controller;
 
 import com.sr.cloud.base.dto.CommonResponse;
 import com.sr.cloud.user.api.UserServiceApi;
+import com.sr.cloud.user.dto.PrivilegeDTO;
 import com.sr.cloud.user.dto.PrivilegeValidateDTO;
 import com.sr.cloud.user.dto.User;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -40,6 +43,14 @@ public class UserController implements UserServiceApi {
     @Override
     @RequestMapping(value = "/queryPrivilegeById", method = RequestMethod.GET)
     public CommonResponse<PrivilegeValidateDTO> queryPrivilegeById(Long id) {
-        return CommonResponse.getSuccessResult(new PrivilegeValidateDTO());
+        PrivilegeValidateDTO privilegeValidateDTO = new PrivilegeValidateDTO();
+        privilegeValidateDTO.setUserId("1");
+        privilegeValidateDTO.setUserName("sunrui");
+        List<PrivilegeDTO> list = new ArrayList<>();
+        PrivilegeDTO privilegeDTO = new PrivilegeDTO();
+        privilegeDTO.setPrivilegeCode("SUPPER_ADMINISTRATOR");
+        list.add(privilegeDTO);
+        privilegeValidateDTO.setPrivilegeDTOList(list);
+        return CommonResponse.getSuccessResult(privilegeValidateDTO);
     }
 }

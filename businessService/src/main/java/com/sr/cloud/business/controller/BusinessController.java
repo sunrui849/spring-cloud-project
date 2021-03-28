@@ -35,4 +35,14 @@ public class BusinessController implements BusinessApi, Serializable {
         log.info("teacher : {}", teacherPO);
         return CommonResponse.getSuccessResult(UUID.randomUUID().toString()+user.getUserName());
     }
+
+    @Override
+    @Privilege
+    @RequestMapping("/doSomeThing2")
+    public CommonResponse<String> doSomeThing2(Long userId) {
+        User user = CommonResponse.parseResponse(userServiceApi.queryById(userId));
+        TeacherPO teacherPO = teacherService.queryById2(3L);
+        log.info("teacher : {}", teacherPO);
+        return CommonResponse.getSuccessResult(UUID.randomUUID().toString()+user.getUserName());
+    }
 }

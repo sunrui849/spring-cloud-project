@@ -14,4 +14,7 @@ public interface BusinessApi {
 
     @RequestMapping(value = "/business/doSomeThing",method = RequestMethod.GET)
     CommonResponse<String> doSomeThing(@RequestParam("userId") Long userId);
+
+    @RequestMapping(value = "/doSomeThing2", method = RequestMethod.GET)
+    CommonResponse<String> doSomeThing2(Long userId);
 }
