@@ -25,7 +25,7 @@
 ## businessService
 * 主要进行业务处理，提供了持久层mybatis接入
 * 服务之间调用可参考业务服务调用用户服务的逻辑，可每一个服务都提供对应的API模块，对其他服务提供能力，特殊服务可不提供
-
+* 集成了mybatis plus,代码生成可用 CodeGenerator 进行生成代码
 # commons
 * 对feign调用增加请求头保证用户信息不丢失，并且增加feign调用请求头，可忽略鉴权
 * 增加requestId，在日志中打印，可以快速定位问题 todo 这里没有跟踪整个链路的requestId
